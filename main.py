@@ -6,7 +6,8 @@ import json
 
 def get_sinks():
     cmd = subprocess.run(
-        ["pactl", "--format", "json", "list", "sinks"], capture_output=True
+        ["/usr/bin/env", "pactl", "--format", "json", "list", "sinks"],
+        capture_output=True,
     )
     if cmd.returncode != 0:
         raise Exception(
@@ -20,9 +21,12 @@ def get_sinks():
 
 
 def set_default_sink(sink):
-    print(f"Setting default sink to: id={sink['index']} name={sink['properties']['device.product.name']}")
+    print(
+        f"Setting default sink to: id={sink['index']} name={sink['properties']['device.product.name']}"
+    )
     cmd = subprocess.run(
-        ["pactl", "set-default-sink", f"{sink['index']}"], capture_output=True
+        ["/usr/bin/env", "pactl", "set-default-sink", f"{sink['index']}"],
+        capture_output=True,
     )
     if cmd.returncode != 0:
         raise Exception(
@@ -31,7 +35,9 @@ def set_default_sink(sink):
 
 
 def get_default_sink_name():
-    cmd = subprocess.run(["pactl", "get-default-sink"], capture_output=True)
+    cmd = subprocess.run(
+        ["/usr/bin/env", "pactl", "get-default-sink"], capture_output=True
+    )
     if cmd.returncode != 0:
         raise Exception(
             f"Failed to run command: {cmd.stdout.decode()} {cmd.stderr.decode()}"
