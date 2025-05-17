@@ -74,7 +74,14 @@ def main():
                 set_default_sink(sinks[idx + 1])
                 return
     elif mode == "show":
-        print(json.dumps(default_sink, indent=2))
+        descr = default_sink["description"]
+        if "Scarlett" in descr:
+            text = "🎧 Headphones"
+        elif "Starship" in descr:
+            text = "   Speakers"
+        else:
+            text = "unknown"
+        print(json.dumps({"text":text}))
     elif mode == "list":
         print(json.dumps(sinks, indent=2))
     else:
